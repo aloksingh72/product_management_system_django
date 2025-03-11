@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">Admin Dashboard</h1>
+
+        <!-- Category Creation Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Create Category</h2>
+            <form action="{% url 'dashboard' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="category_name" placeholder="Category Name"
+                    class="w-full p-2 border rounded-lg mb-4" value="{{a}}">
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Add
+                    Category</button>
+            </form>
+        </div>
+
+        <!-- Category Table -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold mb-4">Categories</h2>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">ID</th>
+                        <th class="border p-2">Category Name</th>
+                        <th class="border p-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in category_data %}
+                    <tr>
+                        <td class="border p-2">{{ forloop.counter }}</td>
+                        <td class="border p-2">{{ category.category_name }}</td>
+                        <td class="border p-2 text-center">
+                            <a href="{% url 'edit-cat' category.id %}"
+                                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-red-600">Edit</a>
+                            <a href="{% url 'delete-cat' category.id %}"
+                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Product Addition Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Add Product</h2>
+            <form method="POST" action="{% url 'add-product' %}"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" name="prod_name" placeholder="Product Name"
+                    class="w-full p-2 border rounded-lg mb-4">
+                <textarea name="description" placeholder="Product Description"
+                    class="w-full p-2 border rounded-lg mb-4"></textarea>
+                <input type="number" name="price" placeholder="Price" class="w-full p-2 border rounded-lg mb-4">
+
+                <!-- <input type="file" name="image" class="w-full p-2 border rounded-lg mb-4"> -->
+                <h3>Select Categories</h3>
+                <select name="category" class="w-full p-2 border rounded-lg mb-4">
+                    {% for category in category_data %}
+                    <!-- <option value="{{ category.id }}">{{ category.id }}</option> -->
+                    <option value="{{ category.id }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Add
+                    Product</button>
+            </form>
+        </div>
+
+        <!-- Product Table -->
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h2 class="text-xl font-semibold mb-4">Products</h2>
+            {% if product_data %}
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">ID</th>
+                        <th class="border p-2">Product Name</th>
+                        <th class="border p-2">Description</th>
+                        <th class="border p-2">Price</th>
+
+                        <th class="border p-2">Category</th>
+                        <th class="border p-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in product_data %}
+                    <tr>
+                        <td class="border p-2">{{ product.id }}</td>
+                        <td class="border p-2">{{ product.prod_name }}</td>
+                        <td class="border p-2">{{ product.description }}</td>
+                        <td class="border p-2">${{ product.price }}</td>
+
+                        <td class="border p-2">{{ product.category.category_name }}</td>
+                        <td class="border p-2 text-center">
+                            <form method="POST" action="/admin/delete-product/{{ product.id }}/">
+                                {% csrf_token %}
+                                <button type="submit"
+                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-gray-500">No products available.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
