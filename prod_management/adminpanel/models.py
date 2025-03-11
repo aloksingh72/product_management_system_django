@@ -22,7 +22,5 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.prod_name
 
-class Meta:
-        db_table = "user_details"

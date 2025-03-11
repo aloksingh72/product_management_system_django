@@ -42,7 +42,7 @@
                         <td class="border p-2">{{ category.category_name }}</td>
                         <td class="border p-2 text-center">
                             <a href="{% url 'edit-cat' category.id %}"
-                                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-red-600">Edit</a>
+                                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</a>
                             <a href="{% url 'delete-cat' category.id %}"
                                 class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
 
@@ -96,18 +96,18 @@
                 <tbody>
                     {% for product in product_data %}
                     <tr>
-                        <td class="border p-2">{{ product.id }}</td>
+                        <td class="border p-2">{{ forloop.counter }}</td>
                         <td class="border p-2">{{ product.prod_name }}</td>
                         <td class="border p-2">{{ product.description }}</td>
                         <td class="border p-2">${{ product.price }}</td>
 
                         <td class="border p-2">{{ product.category.category_name }}</td>
                         <td class="border p-2 text-center">
-                            <form method="POST" action="/admin/delete-product/{{ product.id }}/">
+                            
                                 {% csrf_token %}
-                                <button type="submit"
-                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                            </form>
+                                <a href="{% url 'delete-prod' product.id %}"
+                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                            
                         </td>
                     </tr>
                     {% endfor %}

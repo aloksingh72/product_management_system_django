@@ -32,8 +32,10 @@ def dashboard(request):
 
         return redirect("/admin-panel/dashboard")
     cat = Category.objects.all().order_by("-id")
+    products = Product.objects.all().order_by("-id")
+    categories = Category.objects.all() 
     
-    return render(request,"adminhome.html",context={'category_data':cat})
+    return render(request,"adminhome.html",context={'category_data':cat,'product_data':products,})
 
 
 def delete_cat(request, pk):
@@ -85,14 +87,14 @@ def add_product(request):
         print("================== Product Saved ==================")
 
         return redirect("/admin-panel/dashboard")
-    products = Product.objects.all().order_by("-id")
-    categories = Category.objects.all() 
-    print("Fetched Products:", products)  # Debugging
-    print("Fetched Categories:", categories)
+ 
 
-    return render(request,"adminhome.html",context = {'product_data':products,"category_data":categories})
+    return render(request,"adminhome.html")
 
-
+def delete_prod(request,pk):
+    delete_prod = Product.objects.filter(id = pk).last()
+    delete_prod.delete()
+    return redirect("/admin-panel/dashboard")
 
 
 
