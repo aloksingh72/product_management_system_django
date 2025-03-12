@@ -45,21 +45,6 @@ def delete_cat(request, pk):
 
 
 
-def edit_cat(request, pk):
-    # Fetch the specific category based on the primary key
-    # edit_category = get_object_or_404(Category, id=pk)  
-    edit_category =  Category.objects.filter(id=pk).last() 
-    print(edit_category)
-
-    if request.method == "POST":
-        new_category_name = request.POST.get("category_name")  # Get updated value from form
-        if new_category_name:
-            edit_category.category_name = new_category_name  # Update category name
-            edit_category.save()  # Save changes
-            return redirect("/admin-panel/dashboard")  # Redirect to admin panel after saving
-
-    # Render the editcat.html template and pass the category data
-    return render(request, "editcat.html", {"edit_category": edit_category})
 
 
 
@@ -96,5 +81,41 @@ def delete_prod(request,pk):
     delete_prod.delete()
     return redirect("/admin-panel/dashboard")
 
+def edit_cat(request, pk):
+    # Fetch the specific category based on the primary key
+    # edit_category = get_object_or_404(Category, id=pk)  
+    edit_category =  Category.objects.filter(id=pk).last() 
+    print(edit_category)
 
+    if request.method == "POST":
+        new_category_name = request.POST.get("category_name")  # Get updated value from form
+        if new_category_name:
+            edit_category.category_name = new_category_name  # Update category name
+            edit_category.save()  # Save changes
+            return redirect("/admin-panel/dashboard")  # Redirect to admin panel after saving
+
+    # Render the editcat.html template and pass the category data
+    return render(request, "editcat.html", {"edit_category": edit_category})
+
+
+
+# prod_name
+def edit_prod(request,pk):
+    edit_prod = Product.objects.filter(id = pk).last()
+    category_data =  Category.objects.all()
+    if request.method == "POST":
+        new_product_name = request.POST.get("product_name")
+        new_description = request.POST.get("description")
+        new_price = request.POST.get("price")
+        new_category_name = request.POST.get("category_name")
+        print(new_category_name)
+
+        if new_product_name or new_description or new_price or new_category_name:
+            edit_prod.prod_name = new_product_name
+            edit_prod.description = new_description
+            edit_prod.price = new_price
+            edit_prod.category_id = new_category_name
+            edit_prod.save()
+            return redirect("/admin-panel/dashboard")
+    return render(request,"editprod.html", {"category_data": category_data,"edit_prod":edit_prod})
 
