@@ -35,16 +35,17 @@
                 <div>
                     <label for="category_name" class="block text-gray-600 font-medium">Edit Category:</label>
                     <h3>Select Categories</h3>
-                <select name="category_name" class="w-full p-2 border rounded-lg mb-4">
-                    {% for category in category_data %}
-                    <!-- <option value="{{ category.id }}">{{ category.id }}</option> -->
-                     {% if category.id == edit_prod.category_id%}
-                        <option value="{{ category.id }}" selected>{{ category.category_name }}</option>
-                    {% else %}
-                        <option value="{{ category.id }}">{{ category.category_name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                </select>
+                    <select name="category_name" class="w-full p-2 border rounded-lg mb-4">
+                        {% for category in category_data %}
+                     
+                         {% if category.id == edit_prod.category_id%}
+                            <option value="{{ category.id }}" selected>{{ category.category_name }}</option>
+                        {% else %}
+                            <option value="{{ category.id }}">{{ category.category_name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select> 
+               
                 </div>
 
                 <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Save</button>
@@ -54,3 +55,15 @@
 
 </body>
 </html>
+
+
+<!-- <select name="category_name" class="w-full p-2 border rounded-lg mb-4">
+    {% for category in category_data %}
+ 
+     {% if category.id == edit_prod.category_id%}
+        <option value="{{ category.id }}" selected>{{ category.category_name }}</option>
+    {% else %}
+        <option value="{{ category.id }}">{{ category.category_name }}</option>
+    {% endif %}
+    {% endfor %}
+</select> -->
