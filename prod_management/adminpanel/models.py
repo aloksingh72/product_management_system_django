@@ -1,18 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
+#UserDetails models
 class UserDetails(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=100,unique=True)
     password = models.CharField(max_length=100)
 
-# Category Model
+# Category Model 
 class Category(models.Model):
     category_name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.category_name
     
+#Product model
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     prod_name = models.CharField(max_length=255)
