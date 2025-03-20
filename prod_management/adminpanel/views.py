@@ -61,6 +61,7 @@ def add_product(request):
         category = request.POST.get("category")
         print(category)
 
+        # product model  instance 
         prod_instance = Product()
         
         prod_instance.prod_name = prod_name
