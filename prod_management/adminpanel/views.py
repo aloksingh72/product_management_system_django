@@ -21,7 +21,7 @@ def login(request):
 
     return render(request,"login.html")
 
-
+# dashboard view 
 def dashboard(request):
     if request.method == "POST":
         category_name = request.POST.get("category_name")
